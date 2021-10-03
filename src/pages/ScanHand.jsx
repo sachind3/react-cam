@@ -78,8 +78,6 @@ const ScanHand = () => {
           onFrame: async () => {
             await hands.send({ image: vdRef.current });
           },
-          width: 360,
-          height: 640,
         });
         camera.start();
       })
