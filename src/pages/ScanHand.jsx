@@ -78,6 +78,7 @@ const ScanHand = () => {
           onFrame: async () => {
             await hands.send({ image: vdRef.current });
           },
+          facingMode: "environment",
         });
         camera.start();
       })
