@@ -86,7 +86,7 @@ const ScanHand = () => {
       .catch((error) => {
         console.error(error);
       });
-  }, []);
+  }, [onResults]);
 
   function stopMediaTracks(stream) {
     stream.getTracks().forEach((track) => {
@@ -94,10 +94,15 @@ const ScanHand = () => {
     });
   }
   useEffect(() => {
-    if (typeof currentStream.current !== "undefined") {
-      stopMediaTracks(currentStream.current);
+    if (isComponentMounted.current) {
+      if (typeof currentStream.current !== "undefined") {
+        stopMediaTracks(currentStream.current);
+      }
+      startCam();
     }
-    startCam();
+    return () => {
+      isComponentMounted.current = false;
+    };
   }, [startCam]);
 
   const gotoBack = useCallback(() => {
