@@ -37,7 +37,7 @@ const ScanHand = () => {
         width: { max: 480, ideal: 300, min: 240 },
         height: { max: 640, ideal: 400, min: 320 },
         facingMode: "environment",
-        aspectRatio: 0.5,
+        aspectRatio: 0.75,
       },
       audio: false,
     };
