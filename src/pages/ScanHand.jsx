@@ -34,10 +34,10 @@ const ScanHand = () => {
   const startCam = useCallback(() => {
     const constraints = {
       video: {
-        // width: { max: 480, ideal: 300, min: 240 },
-        // height: { max: 640, ideal: 400, min: 320 },
+        width: { ideal: 300 },
+        height: { ideal: 400 },
         facingMode: "environment",
-        // aspectRatio: 0.75,
+        aspectRatio: 0.75,
       },
       audio: false,
     };
@@ -46,8 +46,8 @@ const ScanHand = () => {
       .then((stream) => {
         currentStream.current = stream;
         vdRef.current.srcObject = stream;
+        canRef.current.width = canRef.current.width;
         canRef.current.height = (canRef.current.width / 75) * 100;
-        console.log(canRef.current.height);
         return navigator.mediaDevices.enumerateDevices();
       })
       .then(() => {})
@@ -131,8 +131,8 @@ const ScanHand = () => {
         <canvas id="canvas" ref={canRef}></canvas>
         <div id="videoContainer">
           <video
-            width="480"
-            height="640"
+            width="300"
+            height="400"
             id="video"
             ref={vdRef}
             autoPlay
