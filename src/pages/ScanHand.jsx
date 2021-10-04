@@ -46,8 +46,9 @@ const ScanHand = () => {
       .then((stream) => {
         currentStream.current = stream;
         vdRef.current.srcObject = stream;
-        canRef.current.width = vdRef.current.videoWidth;
-        canRef.current.height = (canRef.current.width / 75) * 100;
+        console.log(vdRef.current.videoWidth);
+        // canRef.current.width = vdRef.current.videoWidth;
+        // canRef.current.height = (canRef.current.width / 75) * 100;
         return navigator.mediaDevices.enumerateDevices();
       })
       .then(() => {})
@@ -81,6 +82,8 @@ const ScanHand = () => {
 
   const captureImg = () => {
     const ctx = canRef.current.getContext("2d");
+    canRef.current.width = vdRef.current.videoWidth;
+    canRef.current.height = (canRef.current.width / 75) * 100;
     // canRef.current.style.width = vdRef.current.videoWidth + "px";
     // canRef.current.style.height = vdRef.current.videoHeight + "px";
     // alert(
