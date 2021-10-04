@@ -11,6 +11,7 @@ const ScanHand = () => {
   let history = useHistory();
   const [src, setSrc] = useState(null);
   const photoRef = useRef();
+  const [isScan, setIsScan] = useState(false);
 
   const onResults = useCallback((results) => {
     if (results.multiHandLandmarks.length > 0) {
@@ -25,9 +26,11 @@ const ScanHand = () => {
           Number(mark.y).toFixed(2) * photoRef.current.height
         }px`;
         document.querySelector(".capturedImgContainer").appendChild(point);
+        setIsScan(false);
       });
     } else {
       alert("Hand not detected");
+      setIsScan(false);
     }
   }, []);
 
@@ -102,7 +105,8 @@ const ScanHand = () => {
   };
 
   const scanImg = () => {
-    console.log("scaning");
+    setIsScan(true);
+    // console.log("scaning");
     const hands = new Hands({
       locateFile: (file) => {
         return `https://cdn.jsdelivr.net/npm/@mediapipe/hands/${file}`;
@@ -127,7 +131,11 @@ const ScanHand = () => {
           <img src={HandImg} alt="" className="capturedImg" ref={photoRef} />
         </div> */}
         {src != null && (
-          <div className="capturedImgContainer">
+          <div
+            className={` ${
+              isScan ? "scanning capturedImgContainer" : "capturedImgContainer"
+            }`}
+          >
             <img src={src} alt="" className="capturedImg" ref={photoRef} />
           </div>
         )}
