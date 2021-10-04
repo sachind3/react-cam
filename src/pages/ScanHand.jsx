@@ -46,7 +46,7 @@ const ScanHand = () => {
       .then((stream) => {
         currentStream.current = stream;
         vdRef.current.srcObject = stream;
-        canRef.current.width = 300;
+        canRef.current.width = vdRef.current.videoWidth;
         canRef.current.height = (canRef.current.width / 75) * 100;
         return navigator.mediaDevices.enumerateDevices();
       })
@@ -128,7 +128,7 @@ const ScanHand = () => {
             <img src={src} alt="" className="capturedImg" ref={photoRef} />
           </div>
         )}
-        <canvas id="canvas" ref={canRef}></canvas>
+        <canvas id="canvas" width="300" height="400" ref={canRef}></canvas>
         <div id="videoContainer">
           <video
             width="300"
