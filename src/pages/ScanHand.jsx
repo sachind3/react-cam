@@ -13,8 +13,7 @@ const ScanHand = () => {
   const photoRef = useRef();
 
   const onResults = useCallback((results) => {
-    console.log(results.multiHandLandmarks[0]);
-    if (results.multiHandLandmarks[0].length) {
+    if (results.multiHandLandmarks.length > 0) {
       results.multiHandLandmarks[0].forEach((mark, index) => {
         // console.log(mark);
         let point = document.createElement("div");
@@ -27,13 +26,18 @@ const ScanHand = () => {
         }px`;
         document.querySelector(".capturedImgContainer").appendChild(point);
       });
+    } else {
+      alert("Hand not detected");
     }
   }, []);
 
   const startCam = useCallback(() => {
     const constraints = {
       video: {
+        width: { max: 480, ideal: 300, min: 240 },
+        height: { max: 640, ideal: 400, min: 320 },
         facingMode: "environment",
+        aspectRatio: 0.5,
       },
       audio: false,
     };
@@ -42,6 +46,8 @@ const ScanHand = () => {
       .then((stream) => {
         currentStream.current = stream;
         vdRef.current.srcObject = stream;
+        canRef.current.height = (canRef.current.width / 75) * 100;
+        console.log(canRef.current.height);
         return navigator.mediaDevices.enumerateDevices();
       })
       .then(() => {})
@@ -74,12 +80,13 @@ const ScanHand = () => {
   }, [vdRef, history]);
 
   const captureImg = () => {
-    canRef.current.style.width = vdRef.current.videoWidth + "px";
-    canRef.current.style.height = vdRef.current.videoHeight + "px";
+    const ctx = canRef.current.getContext("2d");
+    // canRef.current.style.width = vdRef.current.videoWidth + "px";
+    // canRef.current.style.height = vdRef.current.videoHeight + "px";
     // alert(
     //   `Width: ${vdRef.current.videoWidth}, Height: ${vdRef.current.videoHeight}`
     // );
-    const ctx = canRef.current.getContext("2d");
+
     ctx.drawImage(
       vdRef.current,
       0,
@@ -121,7 +128,7 @@ const ScanHand = () => {
             <img src={src} alt="" className="capturedImg" ref={photoRef} />
           </div>
         )}
-        <canvas id="canvas" width="480px" height="640px" ref={canRef}></canvas>
+        <canvas id="canvas" ref={canRef}></canvas>
         <div id="videoContainer">
           <video
             width="480"
@@ -133,17 +140,16 @@ const ScanHand = () => {
             muted
           ></video>
         </div>
-
-        <button type="button" onClick={gotoBack} className="btn">
-          Go Back
-        </button>
-        <button type="button" onClick={captureImg} className="btn">
-          Capture Img
-        </button>
-        <button type="button" onClick={scanImg} className="btn">
-          Scan Img
-        </button>
       </div>
+      <button type="button" onClick={gotoBack} className="btn">
+        Go Back
+      </button>
+      <button type="button" onClick={captureImg} className="btn">
+        Capture Img
+      </button>
+      <button type="button" onClick={scanImg} className="btn">
+        Scan Img
+      </button>
     </div>
   );
 };
