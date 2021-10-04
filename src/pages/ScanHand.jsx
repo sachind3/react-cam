@@ -46,7 +46,7 @@ const ScanHand = () => {
       .then((stream) => {
         currentStream.current = stream;
         vdRef.current.srcObject = stream;
-        canRef.current.width = canRef.current.width;
+        canRef.current.width = vdRef.current.videoWidth;
         canRef.current.height = (canRef.current.width / 75) * 100;
         return navigator.mediaDevices.enumerateDevices();
       })
