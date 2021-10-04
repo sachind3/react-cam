@@ -34,10 +34,10 @@ const ScanHand = () => {
   const startCam = useCallback(() => {
     const constraints = {
       video: {
-        width: { ideal: 300 },
-        height: { ideal: 400 },
+        // width: { ideal: 300 },
+        // height: { ideal: 400 },
         facingMode: "environment",
-        aspectRatio: 0.75,
+        // aspectRatio: 0.75,
       },
       audio: false,
     };
