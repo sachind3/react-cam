@@ -27,16 +27,17 @@
 }
 .scanContainer {
   position: relative;
-  width: 360px;
+  width: 480px;
   height: 640px;
 }
 #videoContainer {
   box-sizing: border-box;
-  height: 100%;
   overflow: hidden;
-  width: 100%;
+  width: 480px;
+  height: 640px;
 }
 #video {
+  width: 100%;
   height: 100%;
   /* position: relative;
   width: 360px;
@@ -56,6 +57,11 @@
 }
 .capturedImgContainer {
   position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  z-index: 11;
 }
 .capturedImg {
   width: 100%;

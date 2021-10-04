@@ -33,6 +33,8 @@ const ScanHand = () => {
   const startCam = useCallback(() => {
     const constraints = {
       video: {
+        width: 480,
+        height: 640,
         facingMode: "environment",
       },
       audio: false,
@@ -44,6 +46,7 @@ const ScanHand = () => {
         vdRef.current.srcObject = stream;
         return navigator.mediaDevices.enumerateDevices();
       })
+      .then(() => {})
       .catch((error) => {
         console.error(error);
       });
@@ -73,9 +76,11 @@ const ScanHand = () => {
   }, [vdRef, history]);
 
   const captureImg = () => {
-    alert(
-      `Width: ${vdRef.current.videoWidth}, Height: ${vdRef.current.videoHeight}`
-    );
+    canRef.current.style.width = vdRef.current.videoWidth + "px";
+    canRef.current.style.height = vdRef.current.videoHeight + "px";
+    // alert(
+    //   `Width: ${vdRef.current.videoWidth}, Height: ${vdRef.current.videoHeight}`
+    // );
     const ctx = canRef.current.getContext("2d");
     ctx.drawImage(
       vdRef.current,
@@ -113,17 +118,15 @@ const ScanHand = () => {
         {/* <div className="capturedImgContainer">
           <img src={HandImg} alt="" className="capturedImg" ref={photoRef} />
         </div> */}
-        {src != null ? (
+        {src != null && (
           <div className="capturedImgContainer">
             <img src={src} alt="" className="capturedImg" ref={photoRef} />
           </div>
-        ) : (
-          <canvas id="canvas" width="360" height="640" ref={canRef}></canvas>
         )}
-
+        <canvas id="canvas" width="480px" height="640px" ref={canRef}></canvas>
         <div id="videoContainer">
           <video
-            width="360"
+            width="480"
             height="640"
             id="video"
             ref={vdRef}
