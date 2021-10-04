@@ -73,6 +73,9 @@ const ScanHand = () => {
   }, [vdRef, history]);
 
   const captureImg = () => {
+    alert(
+      `Width: ${vdRef.current.videoWidth}, Height: ${vdRef.current.videoHeight}`
+    );
     const ctx = canRef.current.getContext("2d");
     ctx.drawImage(
       vdRef.current,
