@@ -1,8 +1,8 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Hands } from "@mediapipe/hands";
-// import HandImg from "../images/hand.jpg";
-// import { drawConnectors, drawLandmarks } from "@mediapipe/drawing_utils";
 import { useHistory } from "react-router";
+import { HiArrowLeft } from "react-icons/hi";
+import { IoMdHand } from "react-icons/io";
 const ScanHand = () => {
   const isComponentMounted = useRef({});
   const vdRef = useRef(null);
@@ -15,19 +15,21 @@ const ScanHand = () => {
 
   const onResults = useCallback((results) => {
     if (results.multiHandLandmarks.length > 0) {
-      results.multiHandLandmarks[0].forEach((mark, index) => {
-        // console.log(mark);
-        let point = document.createElement("div");
-        point.classList.add("point");
-        point.style.left = `${
-          Number(mark.x).toFixed(2) * photoRef.current.width
-        }px`;
-        point.style.top = `${
-          Number(mark.y).toFixed(2) * photoRef.current.height
-        }px`;
-        document.querySelector(".capturedImgContainer").appendChild(point);
-        setIsScan(false);
-      });
+      setTimeout(() => {
+        results.multiHandLandmarks[0].forEach((mark, index) => {
+          // console.log(mark);
+          let point = document.createElement("div");
+          point.classList.add("point");
+          point.style.left = `${
+            Number(mark.x).toFixed(2) * photoRef.current.width
+          }px`;
+          point.style.top = `${
+            Number(mark.y).toFixed(2) * photoRef.current.height
+          }px`;
+          document.querySelector(".capturedImgContainer").appendChild(point);
+          setIsScan(false);
+        });
+      }, 2000);
     } else {
       alert("Hand not detected");
       setIsScan(false);
@@ -84,15 +86,10 @@ const ScanHand = () => {
   }, [vdRef, history]);
 
   const captureImg = () => {
+    setIsScan(true);
     const ctx = canRef.current.getContext("2d");
     canRef.current.width = vdRef.current.videoWidth;
     canRef.current.height = (canRef.current.width / 75) * 100;
-    // canRef.current.style.width = vdRef.current.videoWidth + "px";
-    // canRef.current.style.height = vdRef.current.videoHeight + "px";
-    // alert(
-    //   `Width: ${vdRef.current.videoWidth}, Height: ${vdRef.current.videoHeight}`
-    // );
-
     ctx.drawImage(
       vdRef.current,
       0,
@@ -102,26 +99,23 @@ const ScanHand = () => {
     );
     var data = canRef.current.toDataURL("image/png");
     setSrc(data);
-  };
-
-  const scanImg = () => {
-    setIsScan(true);
-    // console.log("scaning");
-    const hands = new Hands({
-      locateFile: (file) => {
-        return `https://cdn.jsdelivr.net/npm/@mediapipe/hands/${file}`;
-      },
-    });
-    hands.setOptions({
-      maxNumHands: 2,
-      minDetectionConfidence: 0.5,
-      minTrackingConfidence: 0.5,
-    });
-    async function load() {
-      hands.onResults(onResults);
-      hands.send({ image: photoRef.current });
-    }
-    load();
+    setTimeout(() => {
+      const hands = new Hands({
+        locateFile: (file) => {
+          return `https://cdn.jsdelivr.net/npm/@mediapipe/hands/${file}`;
+        },
+      });
+      hands.setOptions({
+        maxNumHands: 2,
+        minDetectionConfidence: 0.5,
+        minTrackingConfidence: 0.5,
+      });
+      async function load() {
+        hands.onResults(onResults);
+        hands.send({ image: photoRef.current });
+      }
+      load();
+    }, 1000);
   };
 
   return (
@@ -152,15 +146,15 @@ const ScanHand = () => {
           ></video>
         </div>
       </div>
-      <button type="button" onClick={gotoBack} className="btn">
-        Go Back
+      <button type="button" onClick={gotoBack} className="backBtn">
+        <HiArrowLeft />
       </button>
-      <button type="button" onClick={captureImg} className="btn">
-        Capture Img
+      <button type="button" onClick={captureImg} className="scanBtn">
+        <IoMdHand />
       </button>
-      <button type="button" onClick={scanImg} className="btn">
+      {/* <button type="button" onClick={scanImg} className="btn">
         Scan Img
-      </button>
+      </button> */}
     </div>
   );
 };

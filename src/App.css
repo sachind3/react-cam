@@ -111,8 +111,8 @@
   top: 0;
   left: 0;
   z-index: 3;
-  -webkit-animation: scan 0.8s linear alternate infinite;
-  animation: scan 0.8s linear alternate infinite;
+  -webkit-animation: scan 0.5s linear alternate infinite;
+  animation: scan 0.5s linear alternate infinite;
 }
 @-webkit-keyframes scan {
   from {
@@ -144,4 +144,35 @@
   -webkit-transform: translate(-50%, -50%);
   -ms-transform: translate(-50%, -50%);
   transform: translate(-50%, -50%);
+}
+.backBtn {
+  width: 50px;
+  height: 50px;
+  background: #000;
+  border-radius: 50%;
+  color: #fff;
+  border: 0;
+  font-size: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+}
+.scanBtn {
+  width: 70px;
+  height: 70px;
+  background: #000;
+  border-radius: 50%;
+  color: #fff;
+  border: 5px solid #232323;
+  font-size: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  bottom: 1rem;
+  left: 50%;
+  transform: translateX(-50%);
 }
