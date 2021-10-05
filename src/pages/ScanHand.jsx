@@ -15,6 +15,7 @@ const ScanHand = () => {
 
   const onResults = useCallback((results) => {
     if (results.multiHandLandmarks.length > 0) {
+      // console.log(results.multiHandLandmarks[0][0]);
       setTimeout(() => {
         results.multiHandLandmarks[0].forEach((mark, index) => {
           // console.log(mark);
@@ -30,6 +31,25 @@ const ScanHand = () => {
           document.querySelector(".capturedImgContainer").appendChild(point);
           setIsScan(false);
         });
+        let pointPalm = document.createElement("div");
+        pointPalm.classList.add("point");
+        pointPalm.classList.add(`point-palm`);
+        let palm0X =
+          Number(results.multiHandLandmarks[0][0].x).toFixed(2) *
+          photoRef.current.width;
+        let palm9X =
+          Number(results.multiHandLandmarks[0][9].x).toFixed(2) *
+          photoRef.current.width;
+        let palm0y =
+          Number(results.multiHandLandmarks[0][0].y).toFixed(2) *
+          photoRef.current.height;
+        let palm9y =
+          Number(results.multiHandLandmarks[0][9].y).toFixed(2) *
+          photoRef.current.height;
+        pointPalm.style.left = `${(palm0X - palm9X) / 2 + palm9X}px`;
+        pointPalm.style.top = `${(palm0y - palm9y) / 2 + palm9y}px`;
+
+        document.querySelector(".capturedImgContainer").appendChild(pointPalm);
       }, 2000);
     } else {
       alert("Hand not detected");
@@ -55,7 +75,7 @@ const ScanHand = () => {
       .then((stream) => {
         currentStream.current = stream;
         vdRef.current.srcObject = stream;
-        console.log(vdRef.current.videoWidth);
+        // console.log(vdRef.current.videoWidth);
         // canRef.current.width = vdRef.current.videoWidth;
         // canRef.current.height = (canRef.current.width / 75) * 100;
         return navigator.mediaDevices.enumerateDevices();
