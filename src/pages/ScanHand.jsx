@@ -33,6 +33,9 @@ const ScanHand = () => {
     } else {
       alert("Hand not detected");
       setIsScan(false);
+      const ctx = canRef.current.getContext("2d");
+      ctx.clearRect(0, 0, canRef.current.width, canRef.current.height);
+      setSrc(null);
     }
   }, []);
 
@@ -90,6 +93,7 @@ const ScanHand = () => {
     const ctx = canRef.current.getContext("2d");
     canRef.current.width = vdRef.current.videoWidth;
     canRef.current.height = (canRef.current.width / 75) * 100;
+    ctx.clearRect(0, 0, canRef.current.width, canRef.current.height);
     ctx.drawImage(
       vdRef.current,
       0,
