@@ -137,11 +137,11 @@ const ScanHand = () => {
             <img src={src} alt="" className="capturedImg" ref={photoRef} />
           </div>
         )}
-        <canvas id="canvas" width="300" height="400" ref={canRef}></canvas>
+        <canvas id="canvas" width="360" height="480" ref={canRef}></canvas>
         <div id="videoContainer">
           <video
-            width="300"
-            height="400"
+            width="360"
+            height="480"
             id="video"
             ref={vdRef}
             autoPlay
