@@ -20,6 +20,7 @@ const ScanHand = () => {
           // console.log(mark);
           let point = document.createElement("div");
           point.classList.add("point");
+          point.classList.add(`point-${index}`);
           point.style.left = `${
             Number(mark.x).toFixed(2) * photoRef.current.width
           }px`;

@@ -135,15 +135,55 @@
   display: block;
 }
 .point {
-  width: 10px;
-  height: 10px;
-  background: red;
+  width: 50px;
+  height: 50px;
+  background: url("images/germs.gif");
+  background-size: cover;
   position: absolute;
   top: 50%;
   left: 50%;
   -webkit-transform: translate(-50%, -50%);
   -ms-transform: translate(-50%, -50%);
   transform: translate(-50%, -50%);
+}
+.point-3 {
+  transform: translate(-50%, -50%) scale(0.7);
+}
+.point-4 {
+  transform: translate(-50%, -50%) scale(0.4);
+}
+.point-6 {
+  transform: translate(-50%, -50%) scale(0.7);
+}
+.point-7 {
+  transform: translate(-50%, -50%) scale(0.5);
+}
+.point-7 {
+  transform: translate(-50%, -50%) scale(0.6);
+}
+.point-8 {
+  transform: translate(-50%, -50%) scale(0.4);
+}
+.point-12 {
+  transform: translate(-50%, -50%) scale(0.4);
+}
+.point-16 {
+  transform: translate(-50%, -50%) scale(0.4);
+}
+.point-17 {
+  transform: translate(-50%, -50%) scale(0.7);
+}
+.point-18 {
+  transform: translate(-50%, -50%) scale(0.6);
+}
+.point-19 {
+  transform: translate(-50%, -50%) scale(0.5);
+}
+.point-20 {
+  transform: translate(-50%, -50%) scale(0.4);
+}
+.point-9 {
+  transform: translate(-50%, -50%) scale(1.3);
 }
 .backBtn {
   width: 50px;
