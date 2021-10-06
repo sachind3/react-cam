@@ -1,9 +1,12 @@
 import { useCallback, useEffect, useRef, useState } from "react";
+import turfproLogo from "./../images/turfproLogo.png";
 import { Hands } from "@mediapipe/hands";
 import { useHistory } from "react-router";
 import { HiArrowLeft } from "react-icons/hi";
-import { IoMdHand } from "react-icons/io";
+import { mobileAndTabletCheck } from "./../helpers/Utils";
+import scanBtn from "../images/scanBtn.png";
 const ScanHand = () => {
+  // console.log(mobileAndTabletCheck());
   const isComponentMounted = useRef({});
   const vdRef = useRef(null);
   const canRef = useRef(null);
@@ -12,6 +15,15 @@ const ScanHand = () => {
   const [src, setSrc] = useState(null);
   const photoRef = useRef();
   const [isScan, setIsScan] = useState(false);
+  const [isMobile, setIsMobile] = useState(null);
+
+  useEffect(() => {
+    if (mobileAndTabletCheck()) {
+      setIsMobile(true);
+    } else {
+      setIsMobile(false);
+    }
+  }, [isMobile]);
 
   const onResults = useCallback((results) => {
     if (results.multiHandLandmarks.length > 0) {
@@ -61,15 +73,29 @@ const ScanHand = () => {
   }, []);
 
   const startCam = useCallback(() => {
-    const constraints = {
-      video: {
-        // width: { ideal: 300 },
-        // height: { ideal: 400 },
-        facingMode: "environment",
-        // aspectRatio: 0.75,
-      },
-      audio: false,
-    };
+    let constraints = null;
+    if (isMobile) {
+      console.log("mobile");
+      constraints = {
+        video: {
+          // width: { ideal: 300 },
+          // height: { ideal: 400 },
+          facingMode: "environment",
+          // aspectRatio: 0.75,
+        },
+        audio: false,
+      };
+    } else {
+      constraints = {
+        video: {
+          width: 360,
+          height: 480,
+          // facingMode: "environment",
+          aspectRatio: 0.75,
+        },
+        audio: false,
+      };
+    }
     navigator.mediaDevices
       .getUserMedia(constraints)
       .then((stream) => {
@@ -84,7 +110,7 @@ const ScanHand = () => {
       .catch((error) => {
         console.error(error);
       });
-  }, []);
+  }, [isMobile]);
 
   function stopMediaTracks(stream) {
     stream.getTracks().forEach((track) => {
@@ -145,6 +171,12 @@ const ScanHand = () => {
 
   return (
     <div className="appUi scanPage">
+      <div className="header">
+        <button type="button" onClick={gotoBack} className="backBtn">
+          <HiArrowLeft />
+        </button>
+        <img src={turfproLogo} alt="turfproLogo" className="turfproLogo" />
+      </div>
       <div className="scanContainer">
         {/* <div className="capturedImgContainer">
           <img src={HandImg} alt="" className="capturedImg" ref={photoRef} />
@@ -171,15 +203,10 @@ const ScanHand = () => {
           ></video>
         </div>
       </div>
-      <button type="button" onClick={gotoBack} className="backBtn">
-        <HiArrowLeft />
-      </button>
+
       <button type="button" onClick={captureImg} className="scanBtn">
-        <IoMdHand />
+        <img src={scanBtn} alt="scanBtn" />
       </button>
-      {/* <button type="button" onClick={scanImg} className="btn">
-        Scan Img
-      </button> */}
     </div>
   );
 };

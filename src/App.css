@@ -4,20 +4,30 @@
 * Autoprefixer: v10.3.1
 * Browsers: last 4 version
 */
-
+#root {
+  max-width: 420px;
+  min-height: 100vh;
+  position: relative;
+  margin: 0 auto;
+}
 .appUi {
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background: lightsalmon;
+  background-image: url("./images/bg.png");
+  background-color: #0da44e;
+  background-size: cover;
+  background-position: center;
+  background-repeat: repeat;
 }
 .btn {
-  background: #000;
+  /* background: #000;
   color: #fff;
-  padding: 8px 15px;
+  padding: 8px 15px; */
   text-decoration: none;
+  text-align: center;
 }
 .homePage {
   display: -webkit-box;
@@ -32,9 +42,20 @@
   flex-direction: column;
   -webkit-box-pack: center;
   -ms-flex-pack: center;
-  justify-content: center;
+  justify-content: space-between;
   grid-gap: 2rem;
+  padding: 2rem;
 }
+.homePage img {
+  max-width: 95%;
+}
+.homePage .logo {
+  width: 70%;
+}
+.homePage .sunLogologo {
+  width: 80px;
+}
+
 .scanPage {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -48,14 +69,35 @@
   flex-direction: column;
   -webkit-box-pack: center;
   -ms-flex-pack: center;
+  justify-content: flex-start;
+  padding: 1rem;
+  grid-gap: 2rem;
+}
+.scanPage .turfproLogo {
+  width: 200px;
+}
+.scanPage .header {
+  width: 100%;
+  display: flex;
+  align-items: center;
   justify-content: center;
+  position: relative;
 }
 .scanContainer {
   position: relative;
   width: 360px;
   height: 480px;
+  background: #fff;
+  border-radius: 30px;
+  overflow: hidden;
   /* width: 480px;
   height: 640px; */
+}
+@media only screen and (max-width: 360px) {
+  .scanContainer {
+    transform: scale(0.8);
+    transform-origin: top center;
+  }
 }
 #videoContainer {
   -webkit-box-sizing: border-box;
@@ -197,7 +239,7 @@
 .backBtn {
   width: 50px;
   height: 50px;
-  background: #000;
+  background: #f48431;
   border-radius: 50%;
   color: #fff;
   border: 0;
@@ -206,22 +248,15 @@
   align-items: center;
   justify-content: center;
   position: absolute;
-  top: 1rem;
-  left: 1rem;
+  left: 0;
+  top: 0;
 }
 .scanBtn {
-  width: 80px;
-  height: 80px;
-  background: #000;
-  border-radius: 50%;
-  color: #fff;
-  border: 8px solid #232323;
-  font-size: 2rem;
+  background: transparent;
+  border: 0;
+  width: 121px;
+  height: 48px;
   display: flex;
   align-items: center;
   justify-content: center;
-  position: absolute;
-  bottom: 1rem;
-  left: 50%;
-  transform: translateX(-50%);
 }
