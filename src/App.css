@@ -446,6 +446,9 @@
   display: flex;
   z-index: 111;
 }
+.washHand img {
+  width: 300px;
+}
 .cleanHand {
   position: absolute;
   left: 0;
