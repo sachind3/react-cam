@@ -5,23 +5,28 @@ import { useHistory } from "react-router";
 import { HiArrowLeft } from "react-icons/hi";
 import { mobileAndTabletCheck } from "./../helpers/Utils";
 import scanBtn from "../images/scanBtn.png";
+import cleanBtn from "../images/cleanBtn.png";
+import wash from "../images/wash.gif";
+import giphy from "../images/giphy.gif";
 const ScanHand = () => {
   // console.log(mobileAndTabletCheck());
   const isComponentMounted = useRef({});
   const vdRef = useRef(null);
   const canRef = useRef(null);
+  const vidBorderRef = useRef(null);
   let currentStream = useRef();
   let history = useHistory();
   const [src, setSrc] = useState(null);
+  const [scanDone, setScanDone] = useState(false);
+  const [cleanDone, setCleanDone] = useState(false);
+  const [allClean, setAllClean] = useState(false);
   const photoRef = useRef();
   const [isScan, setIsScan] = useState(false);
 
   const onResults = useCallback((results) => {
     if (results.multiHandLandmarks.length > 0) {
-      // console.log(results.multiHandLandmarks[0][0]);
       setTimeout(() => {
         results.multiHandLandmarks[0].forEach((mark, index) => {
-          // console.log(mark);
           let point = document.createElement("div");
           point.classList.add("point");
           point.classList.add(`point-${index}`);
@@ -53,6 +58,9 @@ const ScanHand = () => {
         pointPalm.style.top = `${(palm0y - palm9y) / 2 + palm9y}px`;
 
         document.querySelector(".capturedImgContainer").appendChild(pointPalm);
+        vidBorderRef.current.remove();
+        photoRef.current.classList.add("blur");
+        setScanDone(true);
       }, 2000);
     } else {
       alert("Hand not detected");
@@ -71,7 +79,6 @@ const ScanHand = () => {
         video: {
           width: 360,
           height: 480,
-          // facingMode: "environment",
           aspectRatio: 0.75,
         },
         audio: false,
@@ -80,10 +87,7 @@ const ScanHand = () => {
       // alert("mobile");
       constraints = {
         video: {
-          // width: { ideal: 300 },
-          // height: { ideal: 400 },
           facingMode: "environment",
-          // aspectRatio: 0.75,
         },
 
         audio: false,
@@ -94,9 +98,6 @@ const ScanHand = () => {
       .then((stream) => {
         currentStream.current = stream;
         vdRef.current.srcObject = stream;
-        // console.log(vdRef.current.videoWidth);
-        // canRef.current.width = vdRef.current.videoWidth;
-        // canRef.current.height = (canRef.current.width / 75) * 100;
         return navigator.mediaDevices.enumerateDevices();
       })
       .then(() => {})
@@ -162,6 +163,28 @@ const ScanHand = () => {
       load();
     }, 1000);
   };
+  const cleanImg = () => {
+    setCleanDone(true);
+    cleanHand();
+  };
+  function cleanHand() {
+    setTimeout(() => {
+      setCleanDone(false);
+      setAllClean(true);
+    }, 2000);
+    document.querySelectorAll(".point").forEach((item) => {
+      item.remove();
+    });
+    photoRef.current.classList.remove("blur");
+  }
+
+  useEffect(() => {
+    if (allClean) {
+      setTimeout(() => {
+        document.querySelector(".cleanHand").remove();
+      }, 2000);
+    }
+  }, [allClean]);
 
   return (
     <div className="appUi scanPage">
@@ -172,9 +195,16 @@ const ScanHand = () => {
         <img src={turfproLogo} alt="turfproLogo" className="turfproLogo" />
       </div>
       <div className="scanContainer">
-        {/* <div className="capturedImgContainer">
-          <img src={HandImg} alt="" className="capturedImg" ref={photoRef} />
-        </div> */}
+        {/* {cleanDone && alert()} */}
+
+        <div className={`${allClean ? "cleanHand show" : "cleanHand"}`}>
+          <img src={giphy} alt="giphy" />
+        </div>
+        <div className={`${cleanDone ? "washHand show" : "washHand"}`}>
+          <img src={wash} alt="wash" />
+        </div>
+
+        <div className="videoBorder" ref={vidBorderRef}></div>
         {src != null && (
           <div
             className={` ${
@@ -186,7 +216,6 @@ const ScanHand = () => {
         )}
         <canvas id="canvas" width="360" height="480" ref={canRef}></canvas>
         <div id="videoContainer">
-          <div className="videoBorder"></div>
           <video
             width="360"
             height="480"
@@ -198,10 +227,25 @@ const ScanHand = () => {
           ></video>
         </div>
       </div>
+      {!scanDone && !allClean && (
+        <button type="button" onClick={captureImg} className="scanBtn">
+          <img src={scanBtn} alt="scanBtn" />
+        </button>
+      )}
+      {scanDone && !allClean && (
+        <button type="button" onClick={cleanImg} className="cleanBtn">
+          <img src={cleanBtn} alt="cleanBtn" />
+        </button>
+      )}
 
-      <button type="button" onClick={captureImg} className="scanBtn">
-        <img src={scanBtn} alt="scanBtn" />
-      </button>
+      {allClean && (
+        <div className="hero">
+          Regular hand washing can help avoid conditions like diarrhoea which
+          may happen due to accidental ingestion of harmful bacteria.
+        </div>
+      )}
+
+      <p className="desc">Disclaimer: This is just for demostration purpose.</p>
     </div>
   );
 };
