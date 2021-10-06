@@ -66,7 +66,7 @@ const ScanHand = () => {
   const startCam = useCallback(() => {
     let constraints = null;
     if (!mobileAndTabletCheck()) {
-      alert("desktop");
+      // alert("desktop");
       constraints = {
         video: {
           width: 360,
@@ -77,7 +77,7 @@ const ScanHand = () => {
         audio: false,
       };
     } else {
-      alert("mobile");
+      // alert("mobile");
       constraints = {
         video: {
           // width: { ideal: 300 },
@@ -186,6 +186,7 @@ const ScanHand = () => {
         )}
         <canvas id="canvas" width="360" height="480" ref={canRef}></canvas>
         <div id="videoContainer">
+          <div className="videoBorder"></div>
           <video
             width="360"
             height="480"
