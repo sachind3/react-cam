@@ -15,15 +15,6 @@ const ScanHand = () => {
   const [src, setSrc] = useState(null);
   const photoRef = useRef();
   const [isScan, setIsScan] = useState(false);
-  const [isMobile, setIsMobile] = useState(null);
-
-  useEffect(() => {
-    if (mobileAndTabletCheck()) {
-      setIsMobile(true);
-    } else {
-      setIsMobile(false);
-    }
-  }, [isMobile]);
 
   const onResults = useCallback((results) => {
     if (results.multiHandLandmarks.length > 0) {
@@ -74,7 +65,7 @@ const ScanHand = () => {
 
   const startCam = useCallback(() => {
     let constraints = null;
-    if (!isMobile) {
+    if (!mobileAndTabletCheck()) {
       alert("desktop");
       constraints = {
         video: {
@@ -112,7 +103,7 @@ const ScanHand = () => {
       .catch((error) => {
         console.error(error);
       });
-  }, [isMobile]);
+  }, []);
 
   function stopMediaTracks(stream) {
     stream.getTracks().forEach((track) => {
@@ -124,6 +115,7 @@ const ScanHand = () => {
       if (typeof currentStream.current !== "undefined") {
         stopMediaTracks(currentStream.current);
       }
+
       startCam();
     }
     return () => {
