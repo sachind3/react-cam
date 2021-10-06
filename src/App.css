@@ -492,3 +492,31 @@
     margin: -4rem auto 1rem auto;
   }
 }
+.alert {
+  position: absolute;
+  z-index: 111;
+  background: rgba(0, 0, 0, 0.8);
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  padding: 2rem;
+}
+.alertBody {
+  background: #fff;
+  width: 100%;
+  padding: 1rem;
+  border-radius: 20px;
+}
+.alertBody p {
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+.alertBody button {
+  background: #0da44e;
+  color: #fff;
+  padding: 0.8rem 1.8rem;
+  font-size: 1rem;
+  border: 0;
+  margin-top: 1rem;
+}

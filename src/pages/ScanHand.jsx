@@ -9,7 +9,6 @@ import cleanBtn from "../images/cleanBtn.png";
 import wash from "../images/wash.gif";
 import giphy from "../images/giphy.gif";
 const ScanHand = () => {
-  // console.log(mobileAndTabletCheck());
   const isComponentMounted = useRef({});
   const vdRef = useRef(null);
   const canRef = useRef(null);
@@ -22,6 +21,7 @@ const ScanHand = () => {
   const [allClean, setAllClean] = useState(false);
   const photoRef = useRef();
   const [isScan, setIsScan] = useState(false);
+  const [showAlert, setShowAlert] = useState(false);
 
   const onResults = useCallback((results) => {
     if (results.multiHandLandmarks.length > 0) {
@@ -63,7 +63,8 @@ const ScanHand = () => {
         setScanDone(true);
       }, 2000);
     } else {
-      alert("Hand not detected");
+      setShowAlert(true);
+      // alert("Hand not detected");
       setIsScan(false);
       const ctx = canRef.current.getContext("2d");
       ctx.clearRect(0, 0, canRef.current.width, canRef.current.height);
@@ -200,9 +201,15 @@ const ScanHand = () => {
 
         <img src={turfproLogo} alt="turfproLogo" className="turfproLogo" />
       </div>
+      {showAlert && (
+        <div className="alert">
+          <div className="alertBody">
+            <p>Hand not detected</p>
+            <button onClick={() => setShowAlert(false)}>Try Again</button>
+          </div>
+        </div>
+      )}
       <div className="scanContainer">
-        {/* {cleanDone && alert()} */}
-
         <div className={`${allClean ? "cleanHand show" : "cleanHand"}`}>
           <img src={giphy} alt="giphy" />
         </div>
