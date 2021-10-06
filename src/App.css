@@ -98,7 +98,7 @@
 @media only screen and (max-width: 360px) {
   .scanContainer {
     transform: scale(0.8);
-    transform-origin: top center;
+    transform-origin: 25% top;
   }
 }
 #videoContainer {
