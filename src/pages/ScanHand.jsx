@@ -2,7 +2,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import turfproLogo from "./../images/turfproLogo.png";
 import { Hands } from "@mediapipe/hands";
 import { useHistory } from "react-router";
-import { HiArrowLeft } from "react-icons/hi";
+import { HiArrowLeft, HiOutlineHome } from "react-icons/hi";
 import { mobileAndTabletCheck } from "./../helpers/Utils";
 import scanBtn from "../images/scanBtn.png";
 import cleanBtn from "../images/cleanBtn.png";
@@ -171,6 +171,9 @@ const ScanHand = () => {
     setTimeout(() => {
       setCleanDone(false);
       setAllClean(true);
+      setTimeout(() => {
+        document.querySelector(".cleanHand").classList.remove("show");
+      }, 2000);
     }, 2000);
     document.querySelectorAll(".point").forEach((item) => {
       item.remove();
@@ -178,20 +181,23 @@ const ScanHand = () => {
     photoRef.current.classList.remove("blur");
   }
 
-  useEffect(() => {
-    if (allClean) {
-      setTimeout(() => {
-        document.querySelector(".cleanHand").remove();
-      }, 2000);
-    }
-  }, [allClean]);
-
   return (
     <div className="appUi scanPage">
       <div className="header">
-        <button type="button" onClick={gotoBack} className="backBtn">
-          <HiArrowLeft />
-        </button>
+        {allClean ? (
+          <button
+            type="button"
+            onClick={() => history.push("/")}
+            className="backBtn"
+          >
+            <HiOutlineHome />
+          </button>
+        ) : (
+          <button type="button" onClick={gotoBack} className="backBtn">
+            <HiArrowLeft />
+          </button>
+        )}
+
         <img src={turfproLogo} alt="turfproLogo" className="turfproLogo" />
       </div>
       <div className="scanContainer">
@@ -244,8 +250,11 @@ const ScanHand = () => {
           may happen due to accidental ingestion of harmful bacteria.
         </div>
       )}
-
-      <p className="desc">Disclaimer: This is just for demostration purpose.</p>
+      {!allClean && (
+        <p className="desc">
+          Disclaimer: This is just for demostration purpose.
+        </p>
+      )}
     </div>
   );
 };
