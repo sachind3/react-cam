@@ -75,7 +75,7 @@ const ScanHand = () => {
   const startCam = useCallback(() => {
     let constraints = null;
     if (isMobile) {
-      console.log("mobile");
+      alert("mobile");
       constraints = {
         video: {
           // width: { ideal: 300 },
