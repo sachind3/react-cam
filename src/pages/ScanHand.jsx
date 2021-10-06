@@ -74,7 +74,18 @@ const ScanHand = () => {
 
   const startCam = useCallback(() => {
     let constraints = null;
-    if (isMobile) {
+    if (!isMobile) {
+      alert("desktop");
+      constraints = {
+        video: {
+          width: 360,
+          height: 480,
+          // facingMode: "environment",
+          aspectRatio: 0.75,
+        },
+        audio: false,
+      };
+    } else {
       alert("mobile");
       constraints = {
         video: {
@@ -83,16 +94,7 @@ const ScanHand = () => {
           facingMode: "environment",
           // aspectRatio: 0.75,
         },
-        audio: false,
-      };
-    } else {
-      constraints = {
-        video: {
-          width: 360,
-          height: 480,
-          // facingMode: "environment",
-          aspectRatio: 0.75,
-        },
+
         audio: false,
       };
     }
