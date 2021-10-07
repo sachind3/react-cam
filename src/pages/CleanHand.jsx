@@ -1,65 +1,54 @@
+// clean click wash hand gif run
+//
+
 import { useCallback, useEffect, useRef, useState } from "react";
-import turfproLogo from "./../images/turfproLogo.png";
 import { Hands } from "@mediapipe/hands";
-import { useHistory } from "react-router";
-import { HiArrowLeft } from "react-icons/hi";
 import { mobileAndTabletCheck } from "./../helpers/Utils";
+import { HiArrowLeft, HiOutlineHome } from "react-icons/hi";
+import { useHistory } from "react-router";
+import turfproLogo from "./../images/turfproLogo.png";
 import scanBtn from "../images/scanBtn.png";
-import cleanBtn from "../images/cleanBtn.png";
-import wash from "../images/wash.gif";
-const ScanHand = () => {
+import giphy from "../images/giphy.gif";
+const CleanHand = () => {
   const isComponentMounted = useRef({});
   const vdRef = useRef(null);
   const canRef = useRef(null);
   const vidBorderRef = useRef(null);
   let currentStream = useRef();
-  let history = useHistory();
   const [src, setSrc] = useState(null);
   const [scanDone, setScanDone] = useState(false);
-  const [cleanDone, setCleanDone] = useState(false);
-  // const [allClean, setAllClean] = useState(false);
+  let history = useHistory();
   const photoRef = useRef();
   const [isScan, setIsScan] = useState(false);
   const [showAlert, setShowAlert] = useState(false);
+  const gotoBack = useCallback(() => {
+    vdRef.current.pause();
+    vdRef.current.src = "";
+    history.push("/");
+  }, [vdRef, history]);
 
   const onResults = useCallback((results) => {
     if (results.multiHandLandmarks.length > 0) {
       setTimeout(() => {
-        results.multiHandLandmarks[0].forEach((mark, index) => {
-          let point = document.createElement("div");
-          point.classList.add("point");
-          point.classList.add(`point-${index}`);
-          point.style.left = `${
-            Number(mark.x).toFixed(2) * photoRef.current.width
-          }px`;
-          point.style.top = `${
-            Number(mark.y).toFixed(2) * photoRef.current.height
-          }px`;
-          document.querySelector(".capturedImgContainer").appendChild(point);
-          setIsScan(false);
-        });
-        let pointPalm = document.createElement("div");
-        pointPalm.classList.add("point");
-        pointPalm.classList.add(`point-palm`);
-        let palm0X =
-          Number(results.multiHandLandmarks[0][0].x).toFixed(2) *
-          photoRef.current.width;
-        let palm9X =
-          Number(results.multiHandLandmarks[0][9].x).toFixed(2) *
-          photoRef.current.width;
-        let palm0y =
-          Number(results.multiHandLandmarks[0][0].y).toFixed(2) *
-          photoRef.current.height;
-        let palm9y =
-          Number(results.multiHandLandmarks[0][9].y).toFixed(2) *
-          photoRef.current.height;
-        pointPalm.style.left = `${(palm0X - palm9X) / 2 + palm9X}px`;
-        pointPalm.style.top = `${(palm0y - palm9y) / 2 + palm9y}px`;
+        // results.multiHandLandmarks[0].forEach((mark, index) => {
+        //   let point = document.createElement("div");
+        //   point.classList.add("point");
+        //   point.classList.add(`point-${index}`);
+        //   point.style.left = `${
+        //     Number(mark.x).toFixed(2) * photoRef.current.width
+        //   }px`;
+        //   point.style.top = `${
+        //     Number(mark.y).toFixed(2) * photoRef.current.height
+        //   }px`;
+        //   document.querySelector(".capturedImgContainer").appendChild(point);
+        // });
 
-        document.querySelector(".capturedImgContainer").appendChild(pointPalm);
-        vidBorderRef.current.remove();
-        photoRef.current.classList.add("blur");
+        setIsScan(false);
         setScanDone(true);
+        vidBorderRef.current.remove();
+        setTimeout(() => {
+          document.querySelector(".cleanHand").remove();
+        }, 2000);
       }, 2000);
     } else {
       setShowAlert(true);
@@ -124,12 +113,6 @@ const ScanHand = () => {
     };
   }, [startCam]);
 
-  const gotoBack = useCallback(() => {
-    vdRef.current.pause();
-    vdRef.current.src = "";
-    history.push("/");
-  }, [vdRef, history]);
-
   const captureImg = () => {
     setIsScan(true);
     const ctx = canRef.current.getContext("2d");
@@ -163,25 +146,10 @@ const ScanHand = () => {
       load();
     }, 1000);
   };
-  const cleanImg = () => {
-    setCleanDone(true);
-    cleanHand();
-  };
-  function cleanHand() {
-    setTimeout(() => {
-      setCleanDone(false);
-      history.push("/clean-hand");
-    }, 2000);
-    // document.querySelectorAll(".point").forEach((item) => {
-    //   item.remove();
-    // });
-    // photoRef.current.classList.remove("blur");
-  }
-
   return (
     <div className="appUi scanPage">
       <div className="header">
-        {/* {allClean ? (
+        {scanDone ? (
           <button
             type="button"
             onClick={() => history.push("/")}
@@ -193,10 +161,7 @@ const ScanHand = () => {
           <button type="button" onClick={gotoBack} className="backBtn">
             <HiArrowLeft />
           </button>
-        )} */}
-        <button type="button" onClick={gotoBack} className="backBtn">
-          <HiArrowLeft />
-        </button>
+        )}
 
         <img src={turfproLogo} alt="turfproLogo" className="turfproLogo" />
       </div>
@@ -209,11 +174,8 @@ const ScanHand = () => {
         </div>
       )}
       <div className="scanContainer">
-        {/* <div className={`${allClean ? "cleanHand show" : "cleanHand"}`}>
+        <div className={`${scanDone ? "cleanHand show" : "cleanHand"}`}>
           <img src={giphy} alt="giphy" />
-        </div> */}
-        <div className={`${cleanDone ? "washHand show" : "washHand"}`}>
-          <img src={wash} alt="wash" />
         </div>
 
         <div className="videoBorder" ref={vidBorderRef}></div>
@@ -245,24 +207,18 @@ const ScanHand = () => {
         </button>
       )}
       {scanDone && (
-        <button type="button" onClick={cleanImg} className="cleanBtn">
-          <img src={cleanBtn} alt="cleanBtn" />
-        </button>
+        <>
+          <div className="hero">
+            Regular hand washing can help avoid conditions like diarrhoea which
+            may happen due to accidental ingestion of harmful bacteria.
+          </div>
+          <p className="desc">
+            Disclaimer: This is just for demostration purpose.
+          </p>
+        </>
       )}
-
-      {/* {allClean && (
-        <div className="hero">
-          Regular hand washing can help avoid conditions like diarrhoea which
-          may happen due to accidental ingestion of harmful bacteria.
-        </div>
-      )}
-      {!allClean && (
-        <p className="desc">
-          Disclaimer: This is just for demostration purpose.
-        </p>
-      )} */}
     </div>
   );
 };
 
-export default ScanHand;
+export default CleanHand;
