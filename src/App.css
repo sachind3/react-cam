@@ -11,6 +11,13 @@
 * Autoprefixer: v10.3.1
 * Browsers: last 4 version
 */
+
+/*
+* Prefixed by https://autoprefixer.github.io
+* PostCSS: v8.3.6,
+* Autoprefixer: v10.3.1
+* Browsers: last 4 version
+*/
 #root {
   max-width: 420px;
   height: 100%;
