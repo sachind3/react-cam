@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from "react";
-import turfproLogo from "./../images/turfproLogo.png";
+// import turfproLogo from "./../images/turfproLogo.png";
 import { Hands } from "@mediapipe/hands";
 import { useHistory } from "react-router";
 import { HiArrowLeft } from "react-icons/hi";
@@ -7,6 +7,7 @@ import { mobileAndTabletCheck } from "./../helpers/Utils";
 import scanBtn from "../images/scanBtn.png";
 import cleanBtn from "../images/cleanBtn.png";
 import wash from "../images/wash.gif";
+import Logo from "./../images/logo.svg";
 const ScanHand = () => {
   const isComponentMounted = useRef({});
   const vdRef = useRef(null);
@@ -198,7 +199,7 @@ const ScanHand = () => {
           <HiArrowLeft />
         </button>
 
-        <img src={turfproLogo} alt="turfproLogo" className="turfproLogo" />
+        <img src={Logo} alt="turfproLogo" className="turfproLogo" />
       </div>
       {showAlert && (
         <div className="alert">

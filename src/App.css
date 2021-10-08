@@ -53,8 +53,8 @@
   flex-direction: column;
   -webkit-box-pack: center;
   -ms-flex-pack: center;
-  justify-content: space-between;
-  grid-gap: 2rem;
+  justify-content: center;
+  grid-gap: 4rem;
   padding: 2rem;
 }
 .homePage img {
@@ -81,7 +81,11 @@
   text-align: center;
 }
 .scanPage .turfproLogo {
-  width: calc(100% - 60px);
+  /* width: calc(100% - 60px); */
+  width: auto;
+  height: 50px;
+  margin-right: auto;
+  margin-left: 2rem;
 }
 .scanPage .header {
   width: 100%;
@@ -357,6 +361,24 @@
   width: 200px;
   height: 200px;
   background-size: auto;
+}
+.point.point-palm1 {
+  width: 50px;
+  height: 50px;
+  background-size: cover !important;
+  background: url("images/germs.gif");
+  -webkit-transform: translate(-50%, -50%) scale(0.6);
+  -ms-transform: translate(-50%, -50%) scale(0.6);
+  transform: translate(-50%, -50%) scale(0.6);
+}
+.point.point-palm2 {
+  width: 50px;
+  height: 50px;
+  background-size: cover !important;
+  background: url("images/germs.gif");
+  -webkit-transform: translate(-50%, -50%) scale(0.4) rotate(145deg);
+  -ms-transform: translate(-50%, -50%) scale(0.4) rotate(145deg);
+  transform: translate(-50%, -50%) scale(0.4) rotate(145deg);
 }
 .backBtn {
   width: 50px;

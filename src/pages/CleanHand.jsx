@@ -6,9 +6,10 @@ import { Hands } from "@mediapipe/hands";
 import { mobileAndTabletCheck } from "./../helpers/Utils";
 import { HiArrowLeft, HiOutlineHome } from "react-icons/hi";
 import { useHistory } from "react-router";
-import turfproLogo from "./../images/turfproLogo.png";
+// import turfproLogo from "./../images/turfproLogo.png";
 import scanBtn from "../images/scanBtn.png";
 import giphy from "../images/giphy.gif";
+import Logo from "./../images/logo.svg";
 const CleanHand = () => {
   const isComponentMounted = useRef({});
   const vdRef = useRef(null);
@@ -30,6 +31,7 @@ const CleanHand = () => {
   const onResults = useCallback((results) => {
     if (results.multiHandLandmarks.length > 0) {
       setTimeout(() => {
+        // console.log(results.multiHandLandmarks[0]);
         // results.multiHandLandmarks[0].forEach((mark, index) => {
         //   let point = document.createElement("div");
         //   point.classList.add("point");
@@ -42,7 +44,37 @@ const CleanHand = () => {
         //   }px`;
         //   document.querySelector(".capturedImgContainer").appendChild(point);
         // });
+        let pointPalm1 = document.createElement("div");
+        let pointPalm2 = document.createElement("div");
+        pointPalm1.classList.add("point");
+        pointPalm2.classList.add("point");
+        pointPalm1.classList.add(`point-palm1`);
+        pointPalm2.classList.add(`point-palm2`);
+        let palm0X =
+          Number(results.multiHandLandmarks[0][0].x).toFixed(2) *
+          photoRef.current.width;
+        let palm9X =
+          Number(results.multiHandLandmarks[0][9].x).toFixed(2) *
+          photoRef.current.width;
+        let palm0y =
+          Number(results.multiHandLandmarks[0][0].y).toFixed(2) *
+          photoRef.current.height;
+        let palm9y =
+          Number(results.multiHandLandmarks[0][9].y).toFixed(2) *
+          photoRef.current.height;
+        pointPalm1.style.left = `${(palm0X - palm9X) / 2 + palm9X}px`;
+        pointPalm1.style.top = `${(palm0y - palm9y) / 2 + palm9y}px`;
+        pointPalm2.style.left = `${
+          Number(results.multiHandLandmarks[0][5].x).toFixed(2) *
+          photoRef.current.width
+        }px`;
+        pointPalm2.style.top = `${
+          Number(results.multiHandLandmarks[0][5].y).toFixed(2) *
+          photoRef.current.height
+        }px`;
 
+        document.querySelector(".capturedImgContainer").appendChild(pointPalm1);
+        document.querySelector(".capturedImgContainer").appendChild(pointPalm2);
         setIsScan(false);
         setScanDone(true);
         vidBorderRef.current.remove();
@@ -163,7 +195,7 @@ const CleanHand = () => {
           </button>
         )}
 
-        <img src={turfproLogo} alt="turfproLogo" className="turfproLogo" />
+        <img src={Logo} alt="turfproLogo" className="turfproLogo" />
       </div>
       {showAlert && (
         <div className="alert">
