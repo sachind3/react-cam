@@ -250,6 +250,12 @@ const ScanHand = () => {
           <img src={cleanBtn} alt="cleanBtn" />
         </button>
       )}
+      <div className="desc2">
+        {cleanDone
+          ? `Disclaimer : This is just for demonstration of hand washing`
+          : `Disclaimer : This is a dramatization/creative visual representation of hand scan, to
+        spread the awareness about hand washing.`}
+      </div>
 
       {/* {allClean && (
         <div className="hero">

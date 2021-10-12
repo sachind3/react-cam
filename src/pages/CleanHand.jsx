@@ -244,11 +244,15 @@ const CleanHand = () => {
             Regular hand washing can help avoid conditions like diarrhoea which
             may happen due to accidental ingestion of harmful bacteria.
           </div>
-          <p className="desc">
+          {/* <p className="desc">
             Disclaimer: This is just for demostration purpose.
-          </p>
+          </p> */}
         </>
       )}
+      <div className="desc2">
+        Disclaimer : This is a dramatization/creative visual representation of
+        hand scan, to spread the awareness about hand washing.
+      </div>
     </div>
   );
 };
