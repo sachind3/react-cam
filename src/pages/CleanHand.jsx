@@ -163,7 +163,8 @@ const CleanHand = () => {
     setTimeout(() => {
       const hands = new Hands({
         locateFile: (file) => {
-          return `https://cdn.jsdelivr.net/npm/@mediapipe/hands/${file}`;
+          return `https://cdn.jsdelivr.net/npm/@mediapipe/hands@0.3.1630010197/${file}`;
+          // return `https://cdn.jsdelivr.net/npm/@mediapipe/hands/${file}`;
         },
       });
       hands.setOptions({
